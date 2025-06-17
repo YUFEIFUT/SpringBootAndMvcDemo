@@ -1,0 +1,18 @@
+server:
+  port: 8888
+  servlet:
+    encoding:
+      charset: UTF-8
+
+mycar:
+  brand: lambojini
+  price: 8000000
+
+spring:
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 10
+
+#debug: true

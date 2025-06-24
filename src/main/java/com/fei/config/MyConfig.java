@@ -3,6 +3,7 @@ package com.fei.config;
 import ch.qos.logback.core.db.DBHelper;
 import com.fei.beans.Pet;
 import com.fei.beans.User;
+import com.fei.shutdownhookdemo.DestroyMethodDemo;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -46,5 +47,10 @@ public class MyConfig {
     @Bean("tom22")
     public Pet pet(){
         return new Pet("tomcat");
+    }
+
+    @Bean(destroyMethod = "customDestroy")
+    public DestroyMethodDemo destroyMethodDemo() {
+        return new DestroyMethodDemo();
     }
 }

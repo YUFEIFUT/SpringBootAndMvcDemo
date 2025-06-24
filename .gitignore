@@ -1,0 +1,22 @@
+# 编译输出
+/target/
+
+# IDEA配置
+.idea/
+*.iml
+
+# VSCode配置
+.vscode/
+
+# 日志文件
+*.log
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# Maven依赖缓存
+.mvn/
+
+# 其他
+*.class 

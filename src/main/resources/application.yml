@@ -14,5 +14,22 @@ spring:
       pool:
         core-size: 5
         max-size: 10
+  datasource:
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: root!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # initialization-mode: always 表示每次应用启动时都执行数据源的初始化（包括 schema.sql 和 data.sql），可选值有 always、embedded、never
+    initialization-mode: always
+    # schema: 指定初始化数据库结构的 SQL 脚本路径，通常用于建表
+    schema: classpath:transactional_listener_demo/schema.sql
+    # data: 指定初始化数据库数据的 SQL 脚本路径，通常用于插入初始数据
+    data: classpath:transactional_listener_demo/data.sql
+    # platform: 指定数据库平台类型（如 mysql、h2 等），可用于选择不同的脚本
+    platform: mysql
+  jpa:
+    hibernate:
+      # ddl-auto: none 表示 JPA 不会自动创建、更新或校验数据库表结构，常用于生产环境
+      ddl-auto: none
 
 #debug: true

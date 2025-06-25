@@ -29,7 +29,16 @@ import org.springframework.context.ConfigurableApplicationContext;
     动态配置加载：在环境准备好后加载自定义配置
     启动耗时统计：记录每个阶段的耗时，优化启动性能
     异常处理：在 failed 阶段统一处理启动异常
- */
+
+5. 【重要说明】
+    MyApplicationStartingListener 不会被加入 Spring IOC 容器。
+    - 没有 @Component、@Configuration 等注解，Spring 的包扫描不会自动注册为 Bean。
+    - 该类是通过实现 SpringApplicationRunListener 接口，并在 resources/META-INF/spring.factories 文件中注册。
+    - Spring Boot 启动时会通过反射机制读取 spring.factories，实例化并调用这些监听器，但不会把它们作为 Bean 放入 IOC 容器。
+    - 不能通过 ApplicationContext.getBean(...) 获取，否则会抛出 NoSuchBeanDefinitionException。
+    - 这类监听器只能被 Spring Boot 启动流程自动调用，不能像普通 Bean 一样注入或通过容器获取。
+    - 如果想让某个监听器既能参与 Spring Boot 启动流程，又能作为 Bean 注入，需要分别实现不同的机制（一般没必要这样做）。
+*/
 public class MyApplicationStartingListener implements SpringApplicationRunListener {
     public MyApplicationStartingListener(SpringApplication application, String[] args) {
         // 构造方法必须保留

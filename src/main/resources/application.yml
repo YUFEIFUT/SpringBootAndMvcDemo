@@ -3,6 +3,10 @@ server:
   servlet:
     encoding:
       charset: UTF-8
+  # 配置了这个之后，kill 会打印：
+  # 2025-06-25 16:30:50.116  INFO 10032 --- [extShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+  # 2025-06-25 16:30:50.227  INFO 10032 --- [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+  shutdown: graceful
 
 mycar:
   brand: lambojini

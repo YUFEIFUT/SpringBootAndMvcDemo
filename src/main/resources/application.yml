@@ -35,5 +35,8 @@ spring:
     hibernate:
       # ddl-auto: none 表示 JPA 不会自动创建、更新或校验数据库表结构，常用于生产环境
       ddl-auto: none
+  # 配置自定义的 banner
+  banner:
+    location: classpath:banner.txt
 
 #debug: true

@@ -38,5 +38,10 @@ spring:
   # 配置自定义的 banner
   banner:
     location: classpath:banner.txt
+  # 自定义的启动器配置
+  xxl:
+    job:
+      enabled: true
+
 
 #debug: true

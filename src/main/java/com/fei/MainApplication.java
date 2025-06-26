@@ -8,6 +8,14 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * 主程序类
+ * <p>
+ * 说明：
+ * 1. @EnableConfigurationProperties(Car.class) 的作用：
+ *    这个注解会让 Spring Boot 启用 Car 这个配置属性类，并把它注册为一个 Bean。
+ *    这样 Car 类就能被 Spring 容器管理，并且可以自动注入。
+ * 2. 配合 Car 类上的 @ConfigurationProperties(prefix = "mycar")，
+ *    可以实现将配置文件（如 application.yml）中以 mycar 开头的属性自动绑定到 Car 对象的属性上。
+ * 3. 这样你就可以在其他地方通过 @Autowired 直接注入 Car，属性值也会自动填充。
  */
 @SpringBootApplication
 @EnableConfigurationProperties(Car.class)
@@ -72,5 +80,7 @@ public class MainApplication {
         boolean hehe = run.containsBean("hehe");
         System.out.println("haha："+haha);//true
         System.out.println("hehe："+hehe);//true
+
+        System.out.println(run.getBean(Car.class));
     }
 }

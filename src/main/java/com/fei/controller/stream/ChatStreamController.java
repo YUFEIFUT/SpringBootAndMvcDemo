@@ -4,11 +4,13 @@ package com.fei.controller.stream;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.Executors;
 
 /**
  * 聊天流控制器 - 基于Spring MVC的服务器发送事件(SSE)实现
@@ -71,7 +73,7 @@ import java.nio.charset.StandardCharsets;
  * 4. 添加监控和日志记录
  * 5. 实现优雅的关闭机制
  */
-@Controller
+@RestController
 public class ChatStreamController {
 
     /**
@@ -137,5 +139,31 @@ public class ChatStreamController {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_EVENT_STREAM_VALUE)
                 // 设置响应体
                 .body(body);
+    }
+
+    /*
+    SSE（Server-Sent Events，服务器推送事件） 是一种基于 HTTP 协议的单向通信机制，允许服务器主动将实时数据推送给客户端（比如我们的浏览器），而不是客户端频繁轮询请求数据。
+
+    Spring 为 SSE 提供了专门的支持：SseEmitter，其中的send()方法用于发送数据到客户端，complete()用于正常结束连接，而completeWithError()则是错误终止连接。
+
+    这个方案可以做成异步，即通过线程池不断的向SseEmitter中send数据。
+     */
+    @GetMapping("/chat1")
+    public SseEmitter sse() {
+        SseEmitter emitter = new SseEmitter(60_000L); // 设置超时时间
+
+        Executors.newSingleThreadExecutor().submit(() -> {
+            try {
+                for (int i = 0; i < 30; i++) {
+                    emitter.send("Message " + i);
+                    Thread.sleep(1000);
+                }
+                emitter.complete();
+            } catch (Exception ex) {
+                emitter.completeWithError(ex);
+            }
+        });
+
+        return emitter;
     }
 }
